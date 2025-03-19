@@ -1,5 +1,5 @@
-﻿using ExerciseWeb.Data;
-using ExerciseWeb.Models;
+﻿using Exercise.DataAccess.Data;
+using Exercise.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExerciseWeb.Controllers

@@ -1,6 +1,6 @@
-using System.Diagnostics;
-using ExerciseWeb.Models;
+using Exercise.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace ExerciseWeb.Controllers
 {

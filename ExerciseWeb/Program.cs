@@ -1,4 +1,4 @@
-using ExerciseWeb.Data;
+using Exercise.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
