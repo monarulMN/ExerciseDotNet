@@ -3,6 +3,7 @@ using Exercise.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Exercise.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250322220528_AddForeignKeyForCategoryProductRelation")]
+    partial class AddForeignKeyForCategoryProductRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,10 +88,6 @@ namespace Exercise.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
@@ -119,7 +118,6 @@ namespace Exercise.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "Praesent vitas sodales labriares ",
                             ISBN = "SWD99967386",
-                            ImageUrl = "",
                             ListPrice = 87.0,
                             Price = 34.0,
                             Price100 = 123.0,
@@ -133,7 +131,6 @@ namespace Exercise.DataAccess.Migrations
                             CategoryId = 2,
                             Description = "Praesent vitas sodales labriares ",
                             ISBN = "SWD343467386",
-                            ImageUrl = "",
                             ListPrice = 45.0,
                             Price = 32.0,
                             Price100 = 143.0,
@@ -147,7 +144,6 @@ namespace Exercise.DataAccess.Migrations
                             CategoryId = 3,
                             Description = "Praesent vitas sodales labriares ",
                             ISBN = "SWD3434534386",
-                            ImageUrl = "",
                             ListPrice = 23.0,
                             Price = 45.0,
                             Price100 = 154.0,

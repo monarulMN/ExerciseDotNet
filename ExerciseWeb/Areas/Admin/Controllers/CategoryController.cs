@@ -1,19 +1,20 @@
-﻿using Exercise.DataAccess.Data;
+﻿using Exercise.DataAccess.Repository.IRepository;
 using Exercise.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExerciseWeb.Controllers
+namespace ExerciseWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _dbContext;
-        public CategoryController(ApplicationDbContext dbContext)
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            List<Category> objCategories = _dbContext.Categories.ToList();
+            List<Category> objCategories = _unitOfWork.Category.GetAll().ToList();
             return View(objCategories);
         }
 
@@ -25,31 +26,31 @@ namespace ExerciseWeb.Controllers
         [HttpPost]
         public IActionResult Create(Category category)
         {
-            if(category.Name == category.DisplayOrder.ToString())
+            if (category.Name == category.DisplayOrder.ToString())
             {
-                ModelState.AddModelError("name","The display order can't excetly match the Name");
+                ModelState.AddModelError("name", "The display order can't excetly match the Name");
             }
-            
+
             if (ModelState.IsValid)
             {
-                _dbContext.Categories.Add(category);
-                _dbContext.SaveChanges();
+                _unitOfWork.Category.Add(category);
+                _unitOfWork.Save();
                 TempData["success"] = "Category created Successfully";
                 return RedirectToAction("Index");
             }
             return View();
-            
-            
+
+
         }
 
         public IActionResult Edit(int? id)
         {
-            if(id == null || id == 0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            Category? categoryFromDb = _dbContext.Categories.Find(id);
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
             //Category? categoryFromDb = _dbContext.Categories.FirstOrDefault(x => x.Id == id);
             //Category? categoryFromDb = _dbContext.Categories.Where(x => x.Id == id).FirstOrDefault();
             if (categoryFromDb == null)
@@ -62,28 +63,28 @@ namespace ExerciseWeb.Controllers
         [HttpPost]
         public IActionResult Edit(Category category)
         {
-            
+
             if (ModelState.IsValid)
             {
-                _dbContext.Categories.Update(category);
-                _dbContext.SaveChanges();
+                _unitOfWork.Category.Update(category);
+                _unitOfWork.Save();
                 TempData["success"] = "Category updated successfully";
                 return RedirectToAction("Index");
             }
             return View();
-            
-            
+
+
         }
 
         public IActionResult Delete(int? id)
         {
-            if(id==null || id == 0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            Category? categoryFromDb = _dbContext.Categories.Find(id);
-            if(categoryFromDb == null)
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
+            if (categoryFromDb == null)
             {
                 return NotFound();
             }
@@ -92,13 +93,13 @@ namespace ExerciseWeb.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteAction(int? id)
         {
-            Category? category = _dbContext.Categories.Find(id);
+            Category? category = _unitOfWork.Category.Get(u => u.Id == id);
             if (category == null)
             {
                 return NotFound();
             }
-            _dbContext.Categories.Remove(category);
-            _dbContext.SaveChanges();
+            _unitOfWork.Category.Remove(category);
+            _unitOfWork.Save();
             TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
         }

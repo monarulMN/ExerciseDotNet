@@ -3,6 +3,7 @@ using Exercise.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Exercise.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250322203506_AddProductToDb")]
+    partial class AddProductToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,18 +77,11 @@ namespace Exercise.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -107,8 +103,6 @@ namespace Exercise.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
 
                     b.HasData(
@@ -116,10 +110,8 @@ namespace Exercise.DataAccess.Migrations
                         {
                             Id = 1,
                             Author = "Belly Spark",
-                            CategoryId = 1,
                             Description = "Praesent vitas sodales labriares ",
                             ISBN = "SWD99967386",
-                            ImageUrl = "",
                             ListPrice = 87.0,
                             Price = 34.0,
                             Price100 = 123.0,
@@ -130,10 +122,8 @@ namespace Exercise.DataAccess.Migrations
                         {
                             Id = 2,
                             Author = "Belly wall",
-                            CategoryId = 2,
                             Description = "Praesent vitas sodales labriares ",
                             ISBN = "SWD343467386",
-                            ImageUrl = "",
                             ListPrice = 45.0,
                             Price = 32.0,
                             Price100 = 143.0,
@@ -144,27 +134,14 @@ namespace Exercise.DataAccess.Migrations
                         {
                             Id = 3,
                             Author = "Hardware",
-                            CategoryId = 3,
                             Description = "Praesent vitas sodales labriares ",
                             ISBN = "SWD3434534386",
-                            ImageUrl = "",
                             ListPrice = 23.0,
                             Price = 45.0,
                             Price100 = 154.0,
                             Price50 = 75.0,
                             Title = "Computer"
                         });
-                });
-
-            modelBuilder.Entity("Exercise.Models.Product", b =>
-                {
-                    b.HasOne("Exercise.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
